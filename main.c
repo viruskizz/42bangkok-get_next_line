@@ -14,7 +14,7 @@ int	main(void)
 {
 	// today
 	if (true) {
-		console.log('develop');
+		console.log('master');
 	}
 	return (0);
 }
