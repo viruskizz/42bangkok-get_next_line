@@ -13,7 +13,7 @@
 int	main(void)
 {
 	// today
-	if (false) {
+	if (true) {
 		console.log('x');
 	}
 	return (0);
