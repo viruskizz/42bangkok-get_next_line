@@ -14,6 +14,20 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+typedef struct s_file
+{
+	char	*str;
+	char	*line;
+	int		nstr;
+	int 	nline;
+	int	    offset;
+	int		is_end;
+}	t_file;
+
 char	*get_next_line(int fd);
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 100000
+# endif
 
 #endif
