@@ -27,19 +27,26 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || file.is_end < 0)
 		return (NULL);
-	buf = malloc(sizeof(char) * BUFFER_SIZE);
-	if (file.str == NULL)
-		file.str = malloc(sizeof(char) * 1);
 	file = find_line(file);
 	if (file.is_end)
 		return (file.line);
+	if (file.is_end < 0)
+	{
+		free(file.str);
+		free(file.line);
+		return (NULL);
+	}
+	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	buf[0] = 0;
 	ret = read(fd, buf, BUFFER_SIZE);
 	while (ret)
 	{
-		buf[ret] = '\0';
+		buf[ret] = 0;
 		temp = malloc(sizeof(file.str) * 1);
+		temp[0] = 0;
 		temp = my_strcat(temp, temp, file.str);
-		file.str = malloc(sizeof(char) * (my_strlen(temp) + my_strlen(buf) + 1));
+		file.str = malloc(sizeof(char) * (my_strlen(temp) + my_strlen(buf)) + 1);
+		file.str[0] = 0;
 		file.str = my_strcat(file.str, temp, buf);
 		file = find_line(file);
 		if (file.is_end)
@@ -55,12 +62,21 @@ t_file	find_line(t_file file)
 	int		i;
 	char	*temp;
 
-	file.nstr = my_strlen(file.str);
+	if (file.str == NULL)
+	{
+		file.str = malloc(sizeof(char) * 1);
+		file.str[0] = 0;
+		file.nstr = 0;
+		file.offset = 0;
+		file.nline = 0;
+	}
+	else
+		file.nstr = my_strlen(file.str);
 	i = file.offset;
 	file.is_end = 0;
 	while (i < file.nstr)
 	{
-		if (file.str[i] == '\n' || file.str[i] == '\0')
+		if (file.str[i] == '\n')
 		{
 			file.nline = i;
 			file.line = malloc(sizeof(char) * (file.nline - file.offset) + 1);
@@ -71,9 +87,10 @@ t_file	find_line(t_file file)
 		}
 		i++;
 	}
-	temp = malloc(sizeof(char) * (my_strlen (file.str) + 1));
+	temp = malloc(sizeof(char) * my_strlen(file.str) + 1);
+	temp[0] = 0;
 	temp = my_strcat(temp, temp, file.str);
-	file.str = malloc(sizeof(char) * (file.nstr - file.offset) + 10);
+	file.str = malloc(sizeof(char) * (file.nstr - file.offset) + 1);
 	file.str = my_substr(file.str, temp, file.offset, file.nstr);
 	file.is_end = 0;
 	file.offset = 0;
@@ -83,9 +100,7 @@ t_file	find_line(t_file file)
 char	*my_strcat(char *str, char *s1, char *s2)
 {
 	int		i;
-	int		n;
 
-	n = my_strlen(s1) + my_strlen(s2);
 	i = 0;
 	while (*s1)
 		str[i++] = *s1++;
