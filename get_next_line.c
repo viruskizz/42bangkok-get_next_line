@@ -42,7 +42,7 @@ char	*get_next_line(int fd)
 	while (ret)
 	{
 		buf[ret] = 0;
-		temp = malloc(sizeof(file.str) * 1);
+		temp = malloc(sizeof(char) * my_strlen(file.str) + 1);
 		temp[0] = 0;
 		temp = my_strcat(temp, temp, file.str);
 		file.str = malloc(sizeof(char) * (my_strlen(temp) + my_strlen(buf)) + 1);
@@ -79,7 +79,7 @@ t_file	find_line(t_file file)
 		if (file.str[i] == '\n')
 		{
 			file.nline = i;
-			file.line = malloc(sizeof(char) * (file.nline - file.offset) + 1);
+			file.line = malloc(sizeof(char) * (file.nline - file.offset) + 2);
 			file.line = my_substr(file.line, file.str, file.offset, file.nline + 1);
 			file.offset = file.nline + 1;
 			file.is_end = 1;
@@ -87,11 +87,11 @@ t_file	find_line(t_file file)
 		}
 		i++;
 	}
-	temp = malloc(sizeof(char) * my_strlen(file.str) + 1);
+	temp = malloc(sizeof(char) * my_strlen(file.str) + 2);
 	temp[0] = 0;
 	temp = my_strcat(temp, temp, file.str);
-	file.str = malloc(sizeof(char) * (file.nstr - file.offset) + 1);
-	file.str = my_substr(file.str, temp, file.offset, file.nstr);
+	file.str = malloc(sizeof(char) * (file.nstr - file.offset) + 2);
+	file.str = my_substr(file.str, temp, file.offset, file.nstr + 1);
 	file.is_end = 0;
 	file.offset = 0;
 	return (file);

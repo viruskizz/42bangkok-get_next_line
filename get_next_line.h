@@ -31,6 +31,7 @@ typedef struct s_file
 }	t_file;
 
 char	*get_next_line(int fd);
+void	ft_bzero(void *s, size_t n);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
