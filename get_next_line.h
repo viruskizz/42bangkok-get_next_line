@@ -31,10 +31,13 @@ typedef struct s_file
 }	t_file;
 
 char	*get_next_line(int fd);
-void	ft_bzero(void *s, size_t n);
+char	*my_substr(char *dest, char *str, int start, int end);
+char	*my_strcat(char *str, char *s1, char *s2);
+int		my_strlen(char *str);
+
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2000
+#  define BUFFER_SIZE 2
 # endif
 
 #endif
