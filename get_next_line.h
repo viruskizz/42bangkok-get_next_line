@@ -34,7 +34,7 @@ char	*get_next_line(int fd);
 void	ft_bzero(void *s, size_t n);
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 2000
 # endif
 
 #endif
