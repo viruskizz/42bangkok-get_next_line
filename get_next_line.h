@@ -33,11 +33,12 @@ typedef struct s_file
 char	*get_next_line(int fd);
 char	*my_substr(char *dest, char *str, int start, int end);
 char	*my_strcat(char *str, char *s1, char *s2);
+char	*my_realloc(char *str, int size);
 int		my_strlen(char *str);
 
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
+#  define BUFFER_SIZE 3000
 # endif
 
 #endif

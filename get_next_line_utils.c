@@ -1,5 +1,6 @@
 
 #include <stddef.h>
+#include <stdlib.h>
 
 char	*my_strcat(char *str, char *s1, char *s2)
 {
@@ -35,4 +36,18 @@ int	my_strlen(char *str)
 	while (*str++)
 		i++;
 	return (i);
+}
+
+char	*my_realloc(char *str, int size)
+{
+	char	*ptr;
+
+	if (!str)
+		return (NULL);
+	ptr = malloc(sizeof(char) * size + 1);
+	ptr[0] = 0;
+	ptr = my_strcat(ptr, ptr, str);
+	if (str)
+		free(str);
+	return (ptr);
 }

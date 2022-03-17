@@ -13,70 +13,78 @@
 #include "get_next_line.h"
 
 t_file	find_line(t_file file);
-char	*my_strcat(char *str, char *s1, char *s2);
-char	*my_substr(char *dest, char *str, int start, int end);
-int		my_strlen(char *str);
+t_file	set_nextline(t_file file, int nline);
+t_file	file_initial(t_file file);
+t_file	readline(int fd, t_file f);
 
 char	*get_next_line(int fd)
 {
-	static t_file	file;
-	int				ret;
-	char			*buf;
-	char			*temp;
+	static t_file	f;
 
 	if (fd < 0)
 		return (NULL);
-	if (file.is_end < 0)
-	{
-		free(file.str);
-		free(file.line);
+	f = file_initial(f);
+	if (f.is_end < 0)
 		return (NULL);
-	}
-	if (file.str == NULL)
-	{
-		file.str = malloc(sizeof(char) * BUFFER_SIZE + 1);
-		file.line = malloc(sizeof(char) * BUFFER_SIZE + 1);
-		file.str[0] = 0;
-		file.nstr = 0;
-		file.offset = 0;
-		file.nline = 0;
-	}
-	file = find_line(file);
-	if (file.is_end)
-		return (file.line);
+	f = find_line(f);
+	if (f.is_end)
+		return (f.line);
+	f = readline(fd, f);
+	return (f.line);
+}
+
+t_file	readline(int fd, t_file f)
+{
+	int				ret;
+	char			*buf;
+
 	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	buf[0] = 0;
 	ret = read(fd, buf, BUFFER_SIZE);
 	while (ret)
 	{
 		buf[ret] = 0;
-		temp = malloc(sizeof(char) * my_strlen(file.str) + 1);
-		temp[0] = 0;
-		temp = my_strcat(temp, temp, file.str);
-		free(file.str);
-		free(file.line);
-		file.str = malloc(sizeof(char) * (my_strlen(temp) + my_strlen(buf)) + 2);
-		file.line = malloc(sizeof(char) * (my_strlen(temp) + my_strlen(buf)) + 2);
-		file.str[0] = 0;
-		file.str = my_strcat(file.str, temp, buf);
-		file = find_line(file);
-		free(temp);
-		if (file.is_end)
+		f.str = my_realloc(f.str, my_strlen(f.str) + my_strlen(buf) + 2);
+		f.str = my_strcat(f.str, f.str, buf);
+		f = find_line(f);
+		if (f.is_end)
 		{
 			free(buf);
-			return (file.line);
+			return (f);
 		}
 		ret = read(fd, buf, BUFFER_SIZE);
 	}
-	file.is_end = -1;
+	f.is_end = -1;
+	f.line = my_realloc(f.line, my_strlen(f.str) + 1);
+	f.line = my_strcat(f.line, "\0", f.str);
 	free(buf);
-	return (file.str);
+	return (f);
+}
+
+t_file	file_initial(t_file file)
+{
+	if (file.is_end < 0)
+	{
+		free(file.str);
+		free(file.line);
+		return (file);
+	}
+	if (file.str == NULL)
+	{
+		file.str = malloc(BUFFER_SIZE + 1);
+		file.line = malloc(BUFFER_SIZE + 1);
+		file.str[0] = 0;
+		file.line[0] = 0;
+		file.nstr = 0;
+		file.offset = 0;
+		file.nline = 0;
+	}
+	return (file);
 }
 
 t_file	find_line(t_file file)
 {
 	int		i;
-	char	*temp;
 
 	file.nstr = my_strlen(file.str);
 	i = file.offset;
@@ -84,23 +92,26 @@ t_file	find_line(t_file file)
 	while (i < file.nstr)
 	{
 		if (file.str[i] == '\n')
-		{
-			file.nline = i;
-			// file.line = malloc(sizeof(char) * (file.nline - file.offset) + 2);
-			file.line = my_substr(file.line, file.str, file.offset, file.nline + 1);
-			file.offset = file.nline + 1;
-			file.is_end = 1;
-			return (file);
-		}
+			return (set_nextline(file, i));
 		i++;
 	}
-	temp = malloc(sizeof(char) * my_strlen(file.str) + 2);
-	temp[0] = 0;
-	temp = my_strcat(temp, temp, file.str);
-	// file.str = malloc(sizeof(char) * (file.nstr - file.offset) + 2);
-	file.str = my_substr(file.str, temp, file.offset, file.nstr + 1);
-	file.is_end = 0;
-	file.offset = 0;
-	free(temp);
-	return (file);
+	return (set_nextline(file, 0));
+}
+
+t_file	set_nextline(t_file f, int nline)
+{
+	if (nline)
+	{
+		f.nline = nline;
+		f.line = my_realloc(f.line, f.nline - f.offset + 2);
+		f.line = my_substr(f.line, f.str, f.offset, f.nline + 1);
+		f.offset = f.nline + 1;
+		f.is_end = 1;
+		return (f);
+	}
+	f.str = my_realloc(f.str, my_strlen(f.str) + 2);
+	f.str = my_substr(f.str, f.str, f.offset, f.nstr + 1);
+	f.is_end = 0;
+	f.offset = 0;
+	return (f);
 }

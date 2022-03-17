@@ -19,15 +19,10 @@ int	main(void)
 	int		i;
 	char	*str;
 
-	filename = "test.txt";
+	// filename = "files/empty.txt";
+	filename = "files/test.txt";
 	fd = open(filename, O_RDONLY);
 	printf("BUFFER: %d\n", BUFFER_SIZE);
-	// printf("1\t%s", get_next_line(fd));
-	// printf("2\t%s", get_next_line(fd));
-	// printf("3\t%s", get_next_line(fd));
-	// printf("4\t%s", get_next_line(fd));
-	// printf("5\t%s", get_next_line(fd));
-
 	i = 0;
 	str = get_next_line(fd);
 	while (str)
