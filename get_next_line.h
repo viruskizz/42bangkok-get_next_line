@@ -38,7 +38,7 @@ int		my_strlen(char *str);
 
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 3000
+#  define BUFFER_SIZE 1
 # endif
 
 #endif

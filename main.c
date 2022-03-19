@@ -20,6 +20,7 @@ int	main(void)
 	char	*str;
 
 	// filename = "files/empty.txt";
+	// filename = "files/nl.txt";
 	filename = "files/test.txt";
 	fd = open(filename, O_RDONLY);
 	printf("BUFFER: %d\n", BUFFER_SIZE);

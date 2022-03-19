@@ -41,12 +41,17 @@ int	my_strlen(char *str)
 char	*my_realloc(char *str, int size)
 {
 	char	*ptr;
+	int		i;
 
-	if (!str)
-		return (NULL);
 	ptr = malloc(sizeof(char) * size + 1);
+	if (!ptr)
+		return (NULL);
 	ptr[0] = 0;
-	ptr = my_strcat(ptr, ptr, str);
+	i = -1;
+	while (str[++i])
+		ptr[i] = str[i];
+	while (i < size)
+		ptr[i++] = 0;
 	if (str)
 		free(str);
 	return (ptr);
