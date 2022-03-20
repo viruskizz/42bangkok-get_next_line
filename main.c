@@ -15,24 +15,24 @@
 int	main(void)
 {
 	int		fd;
-	int		i;
 	char	*filename;
+	int		i;
 	char	*str;
 
-	filename = "test.txt";
-	fd = open(filename, O_RDONLY);
-	i = 0;
+	// filename = "files/empty";
+	// filename = "test_tripouille/files/42_no_nl";
+	filename = "test_tripouille/files/empty";
+	fd = open(filename, O_RDWR);
 	printf("BUFFER: %d\n", BUFFER_SIZE);
-	// printf("1\t%s", get_next_line(fd));
-	// printf("2\t%s", get_next_line(fd));
-	// printf("3\t%s", get_next_line(fd));
-	// printf("4\t%s", get_next_line(fd));
-	// printf("5\t%s", get_next_line(fd));
-	while (str = get_next_line(fd))
-		printf("%d\t%s", i++, str);
+	i = 0;
+	str = get_next_line(fd);
+	while (str)
+	{
+		printf("ANS: %s", str);
+		free(str);
 		if (str == NULL)
 			return (0);
-		else
-			printf("%s", str);
+		str = get_next_line(fd);
+	}
 	return (0);
 }
