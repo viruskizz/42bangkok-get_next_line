@@ -3,3 +3,5 @@ test*
 *.bak
 *.out
 *.txt
+files*
+main*.c

@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: araiva <tsomsa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/13 15:04:11 by araiva            #+#    #+#             */
-/*   Updated: 2022/03/13 15:06:06 by araiva           ###   ########.fr       */
+/*   Created: 2022/03/20 21:13:11 by araiva            #+#    #+#             */
+/*   Updated: 2022/03/20 21:13:12 by araiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
@@ -24,6 +23,7 @@ typedef struct s_file
 {
 	char	*str;
 	char	*line;
+	int		fd;
 	int		is_end;
 }	t_file;
 
@@ -35,7 +35,7 @@ int		my_strlen(char *str);
 
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 42
 # endif
 
 #endif
