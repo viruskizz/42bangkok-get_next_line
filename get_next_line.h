@@ -31,14 +31,14 @@ typedef struct s_file
 }	t_file;
 
 char	*get_next_line(int fd);
-char	*my_substr(char *dest, char *str, int start, int end);
-char	*my_strcat(char *str, char *s1, char *s2);
+char	*my_substr(char *str, int start, int end);
+char	*my_strcat(char *s1, char *s2);
 char	*my_realloc(char *str, int size);
 int		my_strlen(char *str);
 
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 5
 # endif
 
 #endif

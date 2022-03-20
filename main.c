@@ -19,19 +19,19 @@ int	main(void)
 	int		i;
 	char	*str;
 
-	// filename = "files/empty.txt";
-	// filename = "files/nl.txt";
+	// filename = "files/empty";
+	// filename = "test_tripouille/files/42_no_nl";
 	filename = "files/test.txt";
-	fd = open(filename, O_RDONLY);
+	fd = open(filename, O_RDWR);
 	printf("BUFFER: %d\n", BUFFER_SIZE);
 	i = 0;
 	str = get_next_line(fd);
 	while (str)
 	{
+		printf("ANS: %s", str);
+		free(str);
 		if (str == NULL)
 			return (0);
-		else
-			printf("%d\t%s", i++, str);
 		str = get_next_line(fd);
 	}
 	return (0);
