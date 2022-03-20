@@ -9,8 +9,6 @@
 /*   Updated: 2022/03/20 21:13:01 by araiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
 #include "get_next_line_bonus.h"
 
 t_file	*find_line(t_file *file);
