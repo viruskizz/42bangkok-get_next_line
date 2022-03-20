@@ -21,7 +21,7 @@ int	main(void)
 
 	// filename = "files/empty";
 	// filename = "test_tripouille/files/42_no_nl";
-	filename = "files/test.txt";
+	filename = "test_tripouille/files/empty";
 	fd = open(filename, O_RDWR);
 	printf("BUFFER: %d\n", BUFFER_SIZE);
 	i = 0;

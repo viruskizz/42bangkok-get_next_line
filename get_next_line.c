@@ -19,7 +19,7 @@ char	*get_next_line(int fd)
 {
 	static t_file	f;
 
-	if (fd <= 0 || fd > 999)
+	if ((fd < 0 || fd > 999) && (read(fd, "\0", 0)))
 		return (NULL);
 	if (f.is_end == -1)
 		return (NULL);
@@ -34,8 +34,13 @@ char	*get_next_line(int fd)
 	f = readline(fd, f);
 	if (f.line)
 		return (f.line);
-	free(f.line);
 	f.is_end = -1;
+	free(f.line);
+	if (f.str[0] == 0)
+	{
+		free(f.str);
+		return (NULL);
+	}
 	return (f.str);
 }
 

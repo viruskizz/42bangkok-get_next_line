@@ -65,6 +65,8 @@ char	*my_substr(char *str, int start, int end)
 
 	i = 0;
 	dest = malloc(sizeof(char) * (end - start + 1));
+	if (!dest)
+		return (NULL);
 	while (start < end)
 		dest[i++] = str[start++];
 	dest[i] = '\0';
