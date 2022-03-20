@@ -19,16 +19,16 @@ t_file	*getfile(int fd, t_file *f);
 
 char	*get_next_line(int fd)
 {
-	static t_file	files[1000];
+	static t_file	files[65534];
 	t_file			*f;
 
 	if ((fd < 0 || fd > 999) && (read(fd, "\0", 0)))
 		return (NULL);
 	f = getfile(fd, files);
-	if (f->is_end == -1)
-	{
+	if (!f)
 		return (NULL);
-	}
+	if (f->is_end == -1)
+		return (NULL);
 	find_line(f);
 	if (f->line)
 		return (f->line);
@@ -37,36 +37,22 @@ char	*get_next_line(int fd)
 		return (f->line);
 	f->is_end = -1;
 	free(f->line);
-	if (f->str[0] == 0)
-	{
-		// printf("END:\n");
-		if (f->str)
-			free(f->str);
-		return (NULL);
-	}
-	return (f->str);
+	if (f->str[0])
+		return (f->str);
+	free(f->str);
+	return (NULL);
 }
 
-t_file *getfile(int fd, t_file *files)
+t_file	*getfile(int fd, t_file *files)
 {
-	int				i;
-	
-	i = 0;
-	while (i < 1000)
+	if (files[fd].str == NULL)
 	{
-		if (files[i].fd == 0)
-		{
-			files[i].fd = fd;
-			files[i].str = malloc(BUFFER_SIZE + 1);
-			files[i].str[0] = 0;
-			files[i].is_end = 0;
-			break;
-		}
-		else if (files[i].fd == fd)
-			break;
-		i++;
+		files[fd].fd = fd;
+		files[fd].str = malloc(BUFFER_SIZE + 1);
+		files[fd].str[0] = 0;
+		files[fd].is_end = 0;
 	}
-	return (&files[i]);
+	return (&files[fd]);
 }
 
 t_file	*readline(t_file *f)
@@ -105,7 +91,7 @@ t_file	*find_line(t_file *f)
 	{
 		if (f->str[i++] == '\n')
 		{
-			tmp = malloc(my_strlen(f->str));
+			tmp = malloc(my_strlen(f->str) + 1);
 			tmp[0] = 0;
 			tmp = my_strcat(tmp, f->str);
 			f->line = my_substr(tmp, 0, i);
