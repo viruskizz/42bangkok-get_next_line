@@ -29,8 +29,11 @@ char	*my_realloc(char *str, int size)
 	while (str[++i])
 		ptr[i] = str[i];
 	ptr[i] = '\0';
-	free(str);
-	str = NULL;
+	if (str)
+	{
+		free(str);
+		str = NULL;
+	}
 	return (ptr);
 }
 
