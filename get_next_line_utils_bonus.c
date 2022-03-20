@@ -9,10 +9,8 @@
 /*   Updated: 2022/03/20 21:13:39 by araiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include <stddef.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 char	*my_realloc(char *str, int size)
 {

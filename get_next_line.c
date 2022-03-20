@@ -9,7 +9,6 @@
 /*   Updated: 2022/03/13 15:06:44 by araiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
 #include "get_next_line.h"
 
 t_file	find_line(t_file file);
