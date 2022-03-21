@@ -20,15 +20,18 @@ char	*my_realloc(char *str, int size)
 	ptr = malloc(sizeof(char) * size);
 	if (!ptr)
 		return (NULL);
+	ptr[0] = 0;
 	if (!str)
 		return (ptr);
-	ptr[0] = 0;
 	i = -1;
 	while (str[++i])
 		ptr[i] = str[i];
 	ptr[i] = '\0';
-	free(str);
-	str = NULL;
+	if (str)
+	{
+		free(str);
+		str = NULL;
+	}
 	return (ptr);
 }
 
@@ -49,6 +52,8 @@ char	*my_strcat(char *s1, char *s2)
 	int		i;
 
 	s1 = my_realloc(s1, my_strlen(s1) + my_strlen(s2) + 1);
+	if (!s1)
+		return (NULL);
 	i = my_strlen(s1);
 	while (*s2)
 		s1[i++] = *s2++;
@@ -68,7 +73,10 @@ char	*my_substr(char *str, int start, int end)
 	while (start < end)
 		dest[i++] = str[start++];
 	dest[i] = '\0';
-	free(str);
-	str = NULL;
+	if (str)
+	{
+		free(str);
+		str = NULL;
+	}
 	return (dest);
 }

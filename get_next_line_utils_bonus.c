@@ -20,9 +20,9 @@ char	*my_realloc(char *str, int size)
 	ptr = malloc(sizeof(char) * size);
 	if (!ptr)
 		return (NULL);
+	ptr[0] = 0;
 	if (!str)
 		return (ptr);
-	ptr[0] = 0;
 	i = -1;
 	while (str[++i])
 		ptr[i] = str[i];
